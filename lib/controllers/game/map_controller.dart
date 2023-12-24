@@ -5,7 +5,10 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
 
 class MapController extends World {
+  MapController({required this.player});
+  
   late TiledComponent map;
+  final PlayerController player;
 
   @override
   FutureOr<void> onLoad() async {
@@ -17,12 +20,7 @@ class MapController extends World {
     for (final spawnPoint in spawnPointsLayer!.objects) {
       switch (spawnPoint.class_) {
         case 'Player':
-          final player = PlayerController(
-            position: Vector2(
-              spawnPoint.x,
-              spawnPoint.y,
-            ),
-          );
+          player.position = Vector2(spawnPoint.x, spawnPoint.y);
           add(player);
           break;
         default:

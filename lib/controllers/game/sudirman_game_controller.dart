@@ -16,11 +16,12 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
   late JoystickComponent joystick;
 
   @override
-  final world = MapController();
-
-  @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
+
+    final world = MapController(
+      player: player,
+    );
 
     cam = CameraComponent.withFixedResolution(
       world: world,
@@ -53,7 +54,6 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
           images.fromCache('hud/joystick.png'),
         ),
       ),
-      
       margin: const EdgeInsets.only(
         left: 20,
         bottom: 32,
@@ -65,12 +65,17 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
   void updateJoystick() {
     switch (joystick.direction) {
       case JoystickDirection.left:
+      case JoystickDirection.upLeft:
+      case JoystickDirection.downLeft:
         player.playerDirection = PlayerDirection.left;
         break;
       case JoystickDirection.right:
+      case JoystickDirection.upRight:
+      case JoystickDirection.downRight:
         player.playerDirection = PlayerDirection.right;
         break;
       default:
+        player.playerDirection = PlayerDirection.none;
         break;
     }
   }

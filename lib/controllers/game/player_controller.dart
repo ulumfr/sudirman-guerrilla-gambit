@@ -58,6 +58,10 @@ class PlayerController extends SpriteAnimationGroupComponent
         dirX -= moveSpeed;
         break;
       case PlayerDirection.right:
+        if (!isFacingRight) {
+          flipHorizontallyAroundCenter();
+          isFacingRight = true;
+        }
         current = PlayerState.walk;
         dirX += moveSpeed;
         break;
