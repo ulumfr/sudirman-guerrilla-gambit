@@ -1,0 +1,70 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Map-01.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Map-01.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 36.25,
+                "y": 212.25
+            }
+        },
+        "asset1.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "asset2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "asset3.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5,
+            "scaleInEditor": 3
+        },
+        "asset4.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        },
+        "bg1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "pohon.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.externalTilesetPath": "D:/Arul/Programming/Kuliah/Project/S5 - Tugas dan Project/Mobile (I)/sudirman_guerrilla_gambit/assets/tiles",
+    "last.imagePath": "D:/Arul/Programming/Kuliah/Project/S5 - Tugas dan Project/Mobile (I)/sudirman_guerrilla_gambit/assets/images/map/SudirmanAssets",
+    "map.height": 45,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 80,
+    "openFiles": [
+        "Map-01.tmx"
+    ],
+    "project": "sudirman_guerrilla.tiled-project",
+    "recentFiles": [
+        "Map-01.tmx",
+        "asset3.tsx",
+        "bg1.tsx",
+        "asset4.tsx",
+        "pohon.tsx",
+        "asset2.tsx",
+        "asset1.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

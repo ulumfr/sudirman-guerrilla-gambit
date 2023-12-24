@@ -1,5 +1,4 @@
 import 'package:flame/flame.dart';
-// import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/routes/app_pages.dart';
@@ -8,24 +7,23 @@ import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  Flame.device.fullScreen();
-  Flame.device.setLandscape();
+  await Flame.device.fullScreen();
+  await Flame.device.setLandscape();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
-  runApp(const MyApp());
-  // runApp(GameWidget(game: game))
+  runApp(const MyGame());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyGame extends StatelessWidget {
+  const MyGame({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Game Sudirman Guerrilla Gambit',
-      initialRoute: '/welcome',
+      initialRoute: '/game',
       getPages: AppRoutes.pages,
       debugShowCheckedModeBanner: false,
     );

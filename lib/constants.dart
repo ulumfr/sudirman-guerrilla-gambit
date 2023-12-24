@@ -13,7 +13,7 @@ class Global {
   static const Color gray3Color = Color(0xFFACB5BD);
   static const Color gray2Color = Color(0xFFDDE2E5);
   static const Color gray1Color = Color(0xFFF8F9FA);
-
+  static const Color bgGame = Color(0xFF75CBD5);
   // Sounds
 
   // Sprite Sheet (Char)
@@ -21,5 +21,4 @@ class Global {
   // Images
 
   // Size
-  
 }
