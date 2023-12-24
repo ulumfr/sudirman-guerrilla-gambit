@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680976412467",
+    "project_id": "sudirman-guerrilla-gambit",
+    "storage_bucket": "sudirman-guerrilla-gambit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680976412467:android:7ddfd7e899c6422d265846",
+        "android_client_info": {
+          "package_name": "com.example.sudirman_guerrilla_gambit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNX2GRgXjZ__NW0KiVw1jPWAgLea2Tg58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
