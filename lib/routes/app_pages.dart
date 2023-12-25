@@ -21,7 +21,7 @@ class AppRoutes {
       name: '/login',
       page: () => const LoginScreen(),
       binding: BindingsBuilder(() {
-        Get.put(AuthController());
+        // Get.put(AuthController());
       }),
     ),
     GetPage(

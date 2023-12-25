@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flame/components.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/check_col.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/collision_block.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
 
 enum PlayerState { idle, walk }
@@ -16,11 +18,17 @@ class PlayerController extends SpriteAnimationGroupComponent
   late final SpriteAnimation walkAnimation;
 
   final double stepTime = 0.1;
+  final double _gravity = 100;
+  final double _jumpForce = 460;
+  final double _terminalVelocity = 300;
+  bool isOnGround = false;
+  bool hasJump = false;
 
   PlayerDirection playerDirection = PlayerDirection.none;
   double moveSpeed = 100;
   Vector2 velocity = Vector2.zero();
   bool isFacingRight = true;
+  List<CollisionBlock> collisionBlocks = [];
 
   @override
   FutureOr<void> onLoad() {
@@ -31,6 +39,9 @@ class PlayerController extends SpriteAnimationGroupComponent
   @override
   void update(double dt) {
     _updatePlayerMovement(dt);
+    _checkHCollision();
+    _applyGravity(dt);
+    _checkVCollision();
     super.update(dt);
   }
 
@@ -83,5 +94,50 @@ class PlayerController extends SpriteAnimationGroupComponent
         textureSize: Vector2(48, 48),
       ),
     );
+  }
+
+  void _checkHCollision(){
+    for(final block in collisionBlocks){
+      if(!block.isplatform){
+        if(checkCollision(this, block)){
+          if(velocity.x > 0){
+            velocity.x = 0;
+            position.x = block.x - width;
+            break;
+          }
+          if(velocity.x < 0){
+            velocity.x = 0;
+            position.x = block.x + block.width + width;
+            break;
+          }
+        }
+      }
+
+    }
+  }
+
+  void _checkVCollision() {
+    for(final block in collisionBlocks){
+      if(block.isplatform){
+
+      } else {
+        if(checkCollision(this, block)){
+          if(velocity.y > 0){
+            velocity.y = 0;
+            position.y = block.y - width;
+            isOnGround = true;
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  void _applyGravity(double dt) {
+    velocity.y += _gravity;
+    velocity.y = velocity.y.clamp(-_jumpForce, _terminalVelocity);
+    position.y += velocity.y * dt;
+
   }
 }

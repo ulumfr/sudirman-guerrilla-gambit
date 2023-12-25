@@ -15,6 +15,24 @@ class AuthController extends GetxController {
 
   RxBool isLoading = false.obs;
   bool isSecure = true;
+  late Rx<User?> _user;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _user = Rx<User?>(auth.currentUser);
+    _user.bindStream(auth.userChanges());
+    ever(_user, _initialScreen);
+  }
+
+  _initialScreen(User? user){
+    if(user == null){
+      goLogin();
+      // Get.toNamed('/login');
+    } else {
+      goMenu();
+    }
+  }
 
   @override
   void dispose() {
