@@ -36,7 +36,7 @@ class PlayerController extends SpriteAnimationGroupComponent
 
   void _loadAllAnimations() {
     idleAnimation = _spriteAnimation('idle', 6);
-    walkAnimation = _spriteAnimation('walk', 8);
+    walkAnimation = _spriteAnimation('walk', 10);
 
     animations = {
       PlayerState.idle: idleAnimation,
@@ -80,7 +80,7 @@ class PlayerController extends SpriteAnimationGroupComponent
       SpriteAnimationData.sequenced(
         amount: amount,
         stepTime: stepTime,
-        textureSize: Vector2(48, 46),
+        textureSize: Vector2(48, 48),
       ),
     );
   }
