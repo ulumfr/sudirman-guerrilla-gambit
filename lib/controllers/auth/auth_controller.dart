@@ -100,7 +100,7 @@ class AuthController extends GetxController {
         backgroundColor: Global.primaryColor,
         colorText: Global.whiteColor,
       );
-      goGame();
+      goMenu();
     } catch (error) {
       Get.snackbar(
         'Error',
@@ -145,9 +145,9 @@ class AuthController extends GetxController {
     Get.toNamed('/signup');
   }
 
-  void goGame() {
+  void goMenu() {
     clear();
-    Get.offAndToNamed('/game');
+    Get.offAndToNamed('/menu');
   }
 
   void clear() {

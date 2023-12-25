@@ -55,6 +55,7 @@ flutter:
   assets:
     - assets/images/hud/
     - assets/images/characters/arya/
+    - assets/images/characters/dukun/
     - assets/images/characters/knight/
     - assets/images/map/SudirmanAssets/
     - assets/audio/

@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/map_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
@@ -32,7 +33,8 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
 
     addAll([cam, world]);
     addJoyStick();
-
+    debugMode = true;
+    // FlameAudio.bgm.play()
     return super.onLoad();
   }
 
@@ -78,5 +80,9 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
         player.playerDirection = PlayerDirection.none;
         break;
     }
+  }
+
+  void goGame() {
+    Get.offAndToNamed('/game');
   }
 }

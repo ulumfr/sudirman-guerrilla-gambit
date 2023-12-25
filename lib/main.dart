@@ -23,7 +23,7 @@ class MyGame extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Game Sudirman Guerrilla Gambit',
-      initialRoute: '/game',
+      initialRoute: '/welcome',
       getPages: AppRoutes.pages,
       debugShowCheckedModeBanner: false,
     );

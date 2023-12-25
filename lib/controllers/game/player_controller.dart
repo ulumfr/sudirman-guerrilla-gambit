@@ -35,8 +35,8 @@ class PlayerController extends SpriteAnimationGroupComponent
   }
 
   void _loadAllAnimations() {
-    idleAnimation = _spriteAnimation('IDLE', 3);
-    walkAnimation = _spriteAnimation('WALK', 8);
+    idleAnimation = _spriteAnimation('idle', 6);
+    walkAnimation = _spriteAnimation('walk', 8);
 
     animations = {
       PlayerState.idle: idleAnimation,
@@ -76,11 +76,11 @@ class PlayerController extends SpriteAnimationGroupComponent
 
   SpriteAnimation _spriteAnimation(String state, int amount) {
     return SpriteAnimation.fromFrameData(
-      game.images.fromCache('characters/knight/$state.png'),
+      game.images.fromCache('characters/arya/$state.png'),
       SpriteAnimationData.sequenced(
         amount: amount,
         stepTime: stepTime,
-        textureSize: Vector2.all(96),
+        textureSize: Vector2(48, 46),
       ),
     );
   }

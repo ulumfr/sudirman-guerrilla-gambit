@@ -101,7 +101,8 @@ class LoginScreen extends GetView<AuthController> {
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
