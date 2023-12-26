@@ -11,7 +11,7 @@ class TextTitleAuth extends StatelessWidget {
     return Text(
       text,
       style: const TextStyle(
-        color: Global.primaryColor,
+        color: Global.bgGoldGame,
         fontSize: 35,
         fontWeight: FontWeight.w400,
       ),

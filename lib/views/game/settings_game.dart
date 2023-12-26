@@ -16,7 +16,7 @@ class SettingsGame extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/images/map/SudirmanAssets/cavemap2.png',
+              Global.caveBg,
             ),
             fit: BoxFit.cover,
           ),
@@ -65,12 +65,12 @@ class SettingsGame extends StatelessWidget {
                               onChanged: (newValue) {
                                 isSoundOn.value = newValue;
                                 if (isSoundOn.value) {
-                                  FlameAudio.bgm.play('sound.mp3');
+                                  FlameAudio.bgm.play('Angkara.wav');
                                 } else {
                                   FlameAudio.bgm.stop();
                                 }
                               },
-                              activeColor: Global.gray1Color,
+                              activeColor: Global.bgGoldGame,
                             ),
                           ),
                         ],

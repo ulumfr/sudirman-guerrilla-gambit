@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:sudirman_guerrilla_gambit/constants.dart';
 
 class CollisionBlock extends PositionComponent{
   bool isplatform;
@@ -11,6 +12,6 @@ class CollisionBlock extends PositionComponent{
       position: position,
       size: size
   ) {
-    debugMode = true;
+    debugMode = Global.debugMode;
   }
 }

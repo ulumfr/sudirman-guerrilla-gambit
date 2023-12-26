@@ -16,7 +16,7 @@ class TextAuth extends StatelessWidget {
     return Text(
       labelText,
       style: TextStyle(
-        color: Global.gray4Color,
+        color: Global.bgwhiteColor,
         fontSize: 16,
         fontWeight: fontweight,
       ),

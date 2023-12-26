@@ -21,7 +21,7 @@ class TextFieldAuth extends StatelessWidget {
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: Global.primaryColor),
+          borderSide: const BorderSide(color: Global.bgGoldGame),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -30,13 +30,15 @@ class TextFieldAuth extends StatelessWidget {
         border: InputBorder.none,
         hintText: hintText,
         hintStyle: const TextStyle(
-          color: Global.gray3Color,
+          color: Global.bgwhiteColor,
           fontSize: 14.5,
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
         ),
+        
       ),
+      style: const TextStyle(color: Global.whiteColor),
     );
   }
 }

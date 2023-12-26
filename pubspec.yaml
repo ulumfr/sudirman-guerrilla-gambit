@@ -59,6 +59,9 @@ flutter:
     - assets/images/characters/witch/
     - assets/images/characters/enemy/
     - assets/images/characters/friend/
+    - assets/images/collectible/Duid/
+    - assets/images/collectible/Lolipop/
+    - assets/images/collectible/Topeng/
     - assets/images/map/SudirmanAssets/
     - assets/images/map/
     - assets/audio/
