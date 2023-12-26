@@ -4,10 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/auth/auth_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
 
 class MenuGame extends GetView<SudirmanGameController> {
   MenuGame({Key? key}) : super(key: key);
+  final AuthController conAuth = Get.find<AuthController>();
 
   final isloginUser = FirebaseAuth.instance.currentUser!;
   @override
@@ -17,7 +19,7 @@ class MenuGame extends GetView<SudirmanGameController> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/images/map/SudirmanAssets/example.png',
+              'assets/images/map/SudirmanAssets/cavemap2.png',
             ),
             fit: BoxFit.cover,
           ),
@@ -62,6 +64,30 @@ class MenuGame extends GetView<SudirmanGameController> {
                         },
                         child: const Text(
                           'Play',
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Global.whiteColor,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          controller.goSetting();
+                        },
+                        child: const Text(
+                          'Settings',
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Global.whiteColor,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          conAuth.logout();
+                        },
+                        child: const Text(
+                          'Logout',
                           style: TextStyle(
                             fontSize: 30,
                             color: Global.whiteColor,

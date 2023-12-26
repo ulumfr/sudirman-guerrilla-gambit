@@ -7,7 +7,7 @@ import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dar
 
 class MapController extends World {
   MapController({required this.player});
-  
+
   late TiledComponent map;
   final PlayerController player;
   List<CollisionBlock> collisionBlocks = [];
@@ -15,30 +15,32 @@ class MapController extends World {
   @override
   FutureOr<void> onLoad() async {
     map = await TiledComponent.load('Map-01.tmx', Vector2.all(16));
-    add(map);
+    await add(map..priority = -1);
 
     final spawnPointsLayer = map.tileMap.getLayer<ObjectGroup>('Spawnpoints');
 
-    for (final spawnPoint in spawnPointsLayer!.objects) {
-      switch (spawnPoint.class_) {
-        case 'Player':
-          player.position = Vector2(spawnPoint.x, spawnPoint.y);
-          add(player);
-          break;
-        default:
+    if (spawnPointsLayer != null) {
+      for (final spawnPoint in spawnPointsLayer.objects) {
+        switch (spawnPoint.class_) {
+          case 'Player':
+            player.position = Vector2(spawnPoint.x, spawnPoint.y);
+            add(player);
+            break;
+          default:
+        }
       }
     }
 
     final collisionslayer = map.tileMap.getLayer<ObjectGroup>('Collisions');
 
-    if(collisionslayer != null){
-      for(final collision in collisionslayer.objects){
-        switch(collision.class_){
+    if (collisionslayer != null) {
+      for (final collision in collisionslayer.objects) {
+        switch (collision.class_) {
           case 'Platform':
             final platform = CollisionBlock(
-                position: Vector2(collision.x, collision.y),
-                size: Vector2(collision.width, collision.height),
-                isplatform: true
+              position: Vector2(collision.x, collision.y),
+              size: Vector2(collision.width, collision.height),
+              isplatform: true,
             );
             collisionBlocks.add(platform);
             add(platform);

@@ -60,6 +60,7 @@ flutter:
     - assets/images/characters/enemy/
     - assets/images/characters/friend/
     - assets/images/map/SudirmanAssets/
+    - assets/images/map/
     - assets/audio/
     - assets/tiles/
   # To add assets to your application, add an assets section, like this:

@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/components/jump_button_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/map_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
 
@@ -23,18 +25,19 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
     final world = MapController(
       player: player,
     );
-
-    cam = CameraComponent.withFixedResolution(
+    final cam = CameraComponent.withFixedResolution(
       world: world,
       width: 600,
       height: 360,
     );
     cam.viewfinder.anchor = Anchor.topLeft;
-
-    addAll([cam, world]);
+    // cam.follow(player);
+    addAll([cam..priority = -1, world..priority = -1]);
     addJoyStick();
     debugMode = true;
-    // FlameAudio.bgm.play()
+
+    FlameAudio.bgm.initialize();
+    FlameAudio.audioCache.load("sound.mp3");
     return super.onLoad();
   }
 
@@ -46,6 +49,7 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
 
   void addJoyStick() {
     joystick = JoystickComponent(
+      priority: 1,
       knob: SpriteComponent(
         sprite: Sprite(
           images.fromCache('hud/knob.png'),
@@ -57,11 +61,12 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
         ),
       ),
       margin: const EdgeInsets.only(
-        left: 20,
-        bottom: 32,
+        left: 32,
+        bottom: 39,
       ),
     );
     add(joystick);
+    add(JumpButtonController());
   }
 
   void updateJoystick() {
@@ -69,20 +74,27 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
-        player.playerDirection = PlayerDirection.left;
+        // player.playerDirection = PlayerDirection.left;
+        player.horizontalMove = -1;
         break;
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
-        player.playerDirection = PlayerDirection.right;
+        // player.playerDirection = PlayerDirection.right;
+        player.horizontalMove = 1;
         break;
       default:
-        player.playerDirection = PlayerDirection.none;
+        // player.playerDirection = PlayerDirection.none;
+        player.horizontalMove = 0;
         break;
     }
   }
 
   void goGame() {
     Get.offAndToNamed('/game');
+  }
+
+  void goSetting() {
+    Get.toNamed('/setting');
   }
 }
