@@ -34,7 +34,6 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
     // cam.follow(player);
     addAll([cam..priority = -1, world..priority = -1]);
     addJoyStick();
-    debugMode = true;
 
     FlameAudio.bgm.initialize();
     FlameAudio.audioCache.load("sound.mp3");

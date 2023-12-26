@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/check_col.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/collision_block.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
+import 'package:sudirman_guerrilla_gambit/models/player_hitbox.dart';
 
 enum PlayerState { idle, walk }
 
@@ -18,9 +20,10 @@ class PlayerController extends SpriteAnimationGroupComponent
   late final SpriteAnimation walkAnimation;
 
   final double stepTime = 0.1;
-  final double _gravity = 50; //9.8
-  final double _jumpForce = 460;
+  final double _gravity = 9.8; //9.8
+  final double _jumpForce = 260;
   final double _terminalVelocity = 300;
+
   double horizontalMove = 0;
   bool isOnGround = false;
   bool hasJump = false;
@@ -31,9 +34,21 @@ class PlayerController extends SpriteAnimationGroupComponent
   // bool isFacingRight = true;
   List<CollisionBlock> collisionBlocks = [];
 
+  PlayerHitbox hitbox = PlayerHitbox(
+    offsetX: 10,
+    offsetY: 4,
+    width: 28,
+    height: 40,
+  );
+
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
+    add(RectangleHitbox(
+      position: Vector2(hitbox.offsetX, hitbox.offsetY),
+      size: Vector2(hitbox.width, hitbox.height),
+    ));
+    debugMode = true;
     return super.onLoad();
   }
 
@@ -57,6 +72,22 @@ class PlayerController extends SpriteAnimationGroupComponent
     };
 
     current = PlayerState.idle;
+  }
+
+  void _updatePlayerState() {
+    PlayerState playerState = PlayerState.idle;
+
+    if (velocity.x < 0 && scale.x > 0) {
+      flipHorizontallyAroundCenter();
+    } else if (velocity.x > 0 && scale.x < 0) {
+      flipHorizontallyAroundCenter();
+    }
+
+    if (velocity.x > 0 || velocity.x < 0) {
+      playerState = PlayerState.walk;
+    }
+
+    current = playerState;
   }
 
   void _updatePlayerMovement(double dt) {
@@ -91,15 +122,11 @@ class PlayerController extends SpriteAnimationGroupComponent
     position.x += velocity.x * dt;
   }
 
-  SpriteAnimation _spriteAnimation(String state, int amount) {
-    return SpriteAnimation.fromFrameData(
-      game.images.fromCache('characters/arya/$state.png'),
-      SpriteAnimationData.sequenced(
-        amount: amount,
-        stepTime: stepTime,
-        textureSize: Vector2(48, 48),
-      ),
-    );
+  void _playerJump(double dt) {
+    velocity.y = -_jumpForce;
+    position.y += velocity.y * dt;
+    isOnGround = false;
+    hasJump = false;
   }
 
   void _checkHCollision() {
@@ -108,41 +135,15 @@ class PlayerController extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
             velocity.x = 0;
-            position.x = block.x - width;
+            // position.x = block.x - width;
+            position.x = block.x - hitbox.offsetX - hitbox.width;
             break;
           }
           if (velocity.x < 0) {
             velocity.x = 0;
-            position.x = block.x + block.width + width;
+            // position.x = block.x + block.width + width;
+            position.x = block.x + block.width + hitbox.width + hitbox.offsetX;
             break;
-          }
-        }
-      }
-    }
-  }
-
-  void _checkVCollision() {
-    for (final block in collisionBlocks) {
-      if (block.isplatform) {
-        if (checkCollision(this, block)) {
-          if (velocity.y > 0) {
-            velocity.y = 0;
-            position.y = block.y - width;
-            isOnGround = true;
-            break;
-          }
-        }
-      } else {
-        if (checkCollision(this, block)) {
-          if (velocity.y > 0) {
-            velocity.y = 0;
-            position.y = block.y - width;
-            isOnGround = true;
-            break;
-          }
-          if (velocity.y < 0) {
-            velocity.y = 0;
-            position.y = block.y - block.height;
           }
         }
       }
@@ -155,26 +156,45 @@ class PlayerController extends SpriteAnimationGroupComponent
     position.y += velocity.y * dt;
   }
 
-  void _updatePlayerState() {
-    PlayerState playerState = PlayerState.idle;
-
-    if (velocity.x < 0 && scale.x > 0) {
-      flipHorizontallyAroundCenter();
-    } else if (velocity.x > 0 && scale.x < 0) {
-      flipHorizontallyAroundCenter();
+  void _checkVCollision() {
+    for (final block in collisionBlocks) {
+      if (block.isplatform) {
+        if (checkCollision(this, block)) {
+          if (velocity.y > 0) {
+            velocity.y = 0;
+            // position.y = block.y - height;
+            position.y = block.y - hitbox.height - hitbox.offsetY;
+            isOnGround = true;
+            break;
+          }
+        }
+      } else {
+        if (checkCollision(this, block)) {
+          if (velocity.y > 0) {
+            velocity.y = 0;
+            // position.y = block.y - height;
+            position.y = block.y - hitbox.height - hitbox.offsetY;
+            isOnGround = true;
+            break;
+          }
+          if (velocity.y < 0) {
+            velocity.y = 0;
+            // position.y = block.y + block.height;
+            position.y = block.y + block.height - hitbox.offsetY;
+          }
+        }
+      }
     }
-
-    if (velocity.x > 0 || velocity.x < 0) {
-      playerState = PlayerState.walk;
-    }
-
-    current = playerState;
   }
 
-  void _playerJump(double dt) {
-    velocity.y = -_jumpForce;
-    position.y += velocity.y * dt;
-    hasJump = false;
-    isOnGround = false;
+  SpriteAnimation _spriteAnimation(String state, int amount) {
+    return SpriteAnimation.fromFrameData(
+      game.images.fromCache('characters/arya/$state.png'),
+      SpriteAnimationData.sequenced(
+        amount: amount,
+        stepTime: stepTime,
+        textureSize: Vector2(48, 48),
+      ),
+    );
   }
 }
