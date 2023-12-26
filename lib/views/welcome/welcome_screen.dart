@@ -7,11 +7,12 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Global.gray1Color,
       body: Center(
         child: Text(
-          "Game",
+          "Sudirman Guerrilla",
           style: TextStyle(
-            color: AppColors.textColor,
+            color: Global.textColor,
             fontSize: 70,
             fontWeight: FontWeight.w400,
           ),

@@ -1,3 +1,4 @@
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/routes/app_pages.dart';
@@ -8,12 +9,15 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
-  runApp(const MyApp());
+  );
+  await Flame.device.fullScreen();
+  await Flame.device.setLandscape();
+
+  runApp(const MyGame());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyGame extends StatelessWidget {
+  const MyGame({super.key});
 
   @override
   Widget build(BuildContext context) {
