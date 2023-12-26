@@ -14,7 +14,7 @@ class MapController extends World {
 
   @override
   FutureOr<void> onLoad() async {
-    map = await TiledComponent.load('Map-01.tmx', Vector2.all(16));
+    map = await TiledComponent.load('Map-02.tmx', Vector2.all(16));
     await add(map..priority = -1);
 
     final spawnPointsLayer = map.tileMap.getLayer<ObjectGroup>('Spawnpoints');

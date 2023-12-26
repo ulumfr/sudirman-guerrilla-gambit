@@ -65,7 +65,7 @@ class SettingsGame extends StatelessWidget {
                               onChanged: (newValue) {
                                 isSoundOn.value = newValue;
                                 if (isSoundOn.value) {
-                                  FlameAudio.bgm.play('sound.mp3');
+                                  FlameAudio.bgm.play('Angkara.wav');
                                 } else {
                                   FlameAudio.bgm.stop();
                                 }

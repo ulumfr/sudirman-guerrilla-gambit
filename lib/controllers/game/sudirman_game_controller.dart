@@ -36,7 +36,7 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
     addJoyStick();
 
     FlameAudio.bgm.initialize();
-    FlameAudio.audioCache.load("sound.mp3");
+    FlameAudio.audioCache.load("Angkara.wav");
     return super.onLoad();
   }
 
