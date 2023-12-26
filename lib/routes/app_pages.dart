@@ -22,7 +22,7 @@ class AppRoutes {
       name: '/login',
       page: () => const LoginScreen(),
       binding: BindingsBuilder(() {
-        // Get.put(AuthController());
+        Get.put(AuthController());
       }),
     ),
     GetPage(
@@ -44,7 +44,7 @@ class AppRoutes {
       page: () => SettingsGame(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => SudirmanGameController());
-        Get.lazyPut(() => AuthController());
+        // Get.lazyPut(() => AuthController());
       }),
     ),
     GetPage(

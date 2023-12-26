@@ -1,17 +1,19 @@
 import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:sudirman_guerrilla_gambit/constants.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/check_col.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/collectible_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/collision_block.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
-import 'package:sudirman_guerrilla_gambit/models/player_hitbox.dart';
+import 'package:sudirman_guerrilla_gambit/models/custom_hitbox.dart';
 
 enum PlayerState { idle, walk }
 
 // enum PlayerDirection { left, right, none }
 
 class PlayerController extends SpriteAnimationGroupComponent
-    with HasGameRef<SudirmanGameController> {
+    with HasGameRef<SudirmanGameController>, CollisionCallbacks{
   PlayerController({
     position,
   }) : super(position: position);
@@ -21,7 +23,7 @@ class PlayerController extends SpriteAnimationGroupComponent
 
   final double stepTime = 0.1;
   final double _gravity = 9.8; //9.8
-  final double _jumpForce = 260;
+  final double _jumpForce = 280;
   final double _terminalVelocity = 300;
 
   double horizontalMove = 0;
@@ -34,10 +36,10 @@ class PlayerController extends SpriteAnimationGroupComponent
   // bool isFacingRight = true;
   List<CollisionBlock> collisionBlocks = [];
 
-  PlayerHitbox hitbox = PlayerHitbox(
-    offsetX: 10,
+  final hitbox = CustomHitbox(
+    offsetX: 15,
     offsetY: 4,
-    width: 28,
+    width: 20,
     height: 40,
   );
 
@@ -48,7 +50,7 @@ class PlayerController extends SpriteAnimationGroupComponent
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
     ));
-    debugMode = true;
+    debugMode = Global.debugMode;
     return super.onLoad();
   }
 
@@ -196,5 +198,13 @@ class PlayerController extends SpriteAnimationGroupComponent
         textureSize: Vector2(48, 48),
       ),
     );
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if(other is Collectible) {
+      other.collidingwithplayer();
+    }
+    super.onCollision(intersectionPoints, other);
   }
 }

@@ -9,12 +9,14 @@ import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/components/jump_button_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/map_controller.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/npc_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
 
-class SudirmanGameController extends FlameGame with DragCallbacks {
+class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionDetection{
   @override
   Color backgroundColor() => Global.bgGame;
   PlayerController player = PlayerController();
+  NpcController npc = NpcController();
   late final CameraComponent cam;
   late JoystickComponent joystick;
 
@@ -23,15 +25,27 @@ class SudirmanGameController extends FlameGame with DragCallbacks {
     await images.loadAllImages();
 
     final world = MapController(
-      player: player,
+      player: player, npc: npc,
     );
     final cam = CameraComponent.withFixedResolution(
       world: world,
       width: 600,
       height: 360,
     );
+
+    // TiledComponent map = await TiledComponent.load('Map-01.tmx', Vector2.all(16));
+
+    // _levelBounds = Rectangle.fromPoints(
+    //     Vector2(0,0),
+    //     Vector2(
+    //         map.width.toDouble(),
+    //         map.height.toDouble())
+    // );
+
+    // cam.viewfinder.anchor = const Anchor(0.1, 0.5);
     cam.viewfinder.anchor = Anchor.topLeft;
     // cam.follow(player);
+    // cam.setBounds(_levelBounds);
     addAll([cam..priority = -1, world..priority = -1]);
     addJoyStick();
 
