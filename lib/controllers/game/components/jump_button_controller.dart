@@ -8,8 +8,8 @@ class JumpButtonController extends SpriteComponent
     with HasGameRef<SudirmanGameController>, TapCallbacks {
   JumpButtonController();
 
-  final margin = 32;
-  final btnSize = 64;
+  final margin = 120;
+  final btnSize = 36;
 
   @override
   FutureOr<void> onLoad() {

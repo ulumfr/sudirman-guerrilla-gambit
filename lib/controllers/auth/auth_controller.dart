@@ -68,7 +68,7 @@ class AuthController extends GetxController {
       Get.snackbar(
         'Success',
         'Registration Successful',
-        backgroundColor: Global.primaryColor,
+        backgroundColor: Global.bgGoldGame,
         colorText: Global.whiteColor,
       );
       // await Future.delayed(const Duration(seconds: 2)); // Ganti dengan durasi yang sesuai
@@ -115,7 +115,7 @@ class AuthController extends GetxController {
       Get.snackbar(
         'Success',
         'Login Successful',
-        backgroundColor: Global.primaryColor,
+        backgroundColor: Global.bgGoldGame,
         colorText: Global.whiteColor,
       );
       goMenu();
@@ -139,7 +139,7 @@ class AuthController extends GetxController {
       Get.snackbar(
         'Succes',
         'Logout Successful',
-        backgroundColor: Global.primaryColor,
+        backgroundColor: Global.bgGoldGame,
         colorText: Global.whiteColor,
       );
     } catch (error) {

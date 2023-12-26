@@ -19,7 +19,7 @@ class MenuGame extends GetView<SudirmanGameController> {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              'assets/images/map/SudirmanAssets/cavemap2.png',
+              Global.caveBg,
             ),
             fit: BoxFit.cover,
           ),

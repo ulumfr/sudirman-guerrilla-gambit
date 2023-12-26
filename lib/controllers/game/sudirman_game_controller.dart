@@ -6,15 +6,15 @@ import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sudirman_guerrilla_gambit/constants.dart';
+// import 'package:sudirman_guerrilla_gambit/constants.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/components/jump_button_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/map_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/npc_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
 
 class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionDetection{
-  @override
-  Color backgroundColor() => Global.bgGame;
+  // @override
+  // Color backgroundColor() => Global.bgGame;
   PlayerController player = PlayerController();
   NpcController npc = NpcController();
   late final CameraComponent cam;
@@ -74,7 +74,7 @@ class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionD
         ),
       ),
       margin: const EdgeInsets.only(
-        left: 32,
+        left: 80,
         bottom: 39,
       ),
     );
