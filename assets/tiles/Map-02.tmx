@@ -96,7 +96,6 @@
  </objectgroup>
  <objectgroup id="5" name="Collisions">
   <object id="7" x="-16" y="0" width="16" height="368"/>
-  <object id="8" x="-16" y="368" width="672" height="16"/>
   <object id="11" x="-16" y="-16" width="672" height="16"/>
   <object id="12" x="640" y="0" width="16" height="368"/>
   <object id="13" x="84" y="152" width="119" height="24"/>
@@ -111,5 +110,6 @@
   <object id="51" x="244" y="231" width="120" height="24"/>
   <object id="55" x="71" y="311" width="19" height="57"/>
   <object id="56" x="115" y="311" width="18" height="57"/>
+  <object id="8" name="Void" type="Void" x="-16" y="368" width="672" height="16"/>
  </objectgroup>
 </map>

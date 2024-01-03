@@ -70,6 +70,15 @@ class MapController extends World {
         //   collisionBlocks.add(checkpoint);
         //   add(checkpoint);
         //   break;
+          case 'Void':
+            final ded = CollisionBlock(
+                position: Vector2(collision.x, collision.y),
+                size: Vector2(collision.width, collision.height),
+                isVoid: true
+            );
+            collisionBlocks.add(ded);
+            add(ded);
+            break;
           default:
             final block = CollisionBlock(
               position: Vector2(collision.x, collision.y),

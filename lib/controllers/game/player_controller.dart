@@ -25,7 +25,7 @@ class PlayerController extends SpriteAnimationGroupComponent
   final double _gravity = 9.8; //9.8
   final double _jumpForce = 280;
   final double _terminalVelocity = 300;
-
+  Vector2 spawnPos = Vector2(0,0);
   double horizontalMove = 0;
   bool isOnGround = false;
   bool hasJump = false;
@@ -46,11 +46,13 @@ class PlayerController extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
+    spawnPos = Vector2(position.x, position.y);
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
     ));
-    debugMode = Global.debugMode;
+    // debugMode = Global.debugMode;
+    debugMode = true;
     return super.onLoad();
   }
 
@@ -81,7 +83,8 @@ class PlayerController extends SpriteAnimationGroupComponent
 
     if (velocity.x < 0 && scale.x > 0) {
       flipHorizontallyAroundCenter();
-    } else if (velocity.x > 0 && scale.x < 0) {
+    }
+    else if (velocity.x > 0 && scale.x < 0) {
       flipHorizontallyAroundCenter();
     }
 
@@ -170,6 +173,16 @@ class PlayerController extends SpriteAnimationGroupComponent
             break;
           }
         }
+      } else if(block.isVoid){
+        if(checkCollision(this, block)){
+          if(velocity.y > 0){
+            velocity.y = 0;
+            velocity.x = 0;
+            scale.x = 1;
+            position = spawnPos;
+            break;
+          }
+        }
       } else {
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
@@ -205,6 +218,9 @@ class PlayerController extends SpriteAnimationGroupComponent
     if(other is Collectible) {
       other.collidingwithplayer();
     }
+    // if(other is CollisionBlock){
+    //
+    // }
     super.onCollision(intersectionPoints, other);
   }
 }
