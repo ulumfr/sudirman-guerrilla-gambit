@@ -51,8 +51,7 @@ class PlayerController extends SpriteAnimationGroupComponent
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
     ));
-    // debugMode = Global.debugMode;
-    debugMode = true;
+    debugMode = Global.debugMode;
     return super.onLoad();
   }
 

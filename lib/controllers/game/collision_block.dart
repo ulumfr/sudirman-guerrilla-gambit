@@ -14,8 +14,7 @@ class CollisionBlock extends PositionComponent{
       position: position,
       size: size
   ) {
-    // debugMode = Global.debugMode;
-    debugMode = true;
+    debugMode = Global.debugMode;
   }
 
 
