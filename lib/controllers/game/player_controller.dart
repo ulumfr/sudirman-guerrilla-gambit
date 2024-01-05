@@ -198,6 +198,7 @@ class PlayerController extends SpriteAnimationGroupComponent
         FlameAudio.play('collect.wav', volume: game.volumeSfx);
       }
       other.collidingwithplayer();
+      gameRef.playerData.collect.value += 1;
     }
     super.onCollision(intersectionPoints, other);
   }

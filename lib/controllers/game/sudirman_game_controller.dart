@@ -6,20 +6,25 @@ import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/components/hud.dart';
 // import 'package:sudirman_guerrilla_gambit/constants.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/components/jump_button_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/map_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/npc_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
+import 'package:sudirman_guerrilla_gambit/models/player_data.dart';
 
 class SudirmanGameController extends FlameGame
-    with DragCallbacks, HasCollisionDetection {
+    with DragCallbacks, HasCollisionDetection, TapCallbacks {
   PlayerController player = PlayerController();
   NpcController npc = NpcController();
-  late final CameraComponent cam;
-  late JoystickComponent joystick;
+  
   double volumeSfx = 1.0;
   bool playSfx = true;
+
+  late final CameraComponent cam;
+  final playerData = PlayerData();
+  late JoystickComponent joystick;
 
   @override
   FutureOr<void> onLoad() async {
@@ -29,6 +34,7 @@ class SudirmanGameController extends FlameGame
       player: player,
       npc: npc,
     );
+    
     final cam = CameraComponent.withFixedResolution(
       world: world,
       width: 600,
@@ -50,6 +56,7 @@ class SudirmanGameController extends FlameGame
     // cam.setBounds(_levelBounds);
     addAll([cam..priority = -1, world..priority = -1]);
     addJoyStick();
+    add(Hud(priority: 1));
 
     FlameAudio.bgm.initialize();
     FlameAudio.audioCache.load("Angkara.wav");
