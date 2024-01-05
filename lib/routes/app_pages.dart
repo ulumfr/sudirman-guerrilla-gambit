@@ -37,6 +37,7 @@ class AppRoutes {
       page: () => MenuGame(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => SudirmanGameController());
+        Get.lazyPut(() => AuthController());
       }),
     ),
     GetPage(

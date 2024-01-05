@@ -19,7 +19,7 @@ class SudirmanGameController extends FlameGame
   PlayerController player = PlayerController();
   NpcController npc = NpcController();
   
-  double volumeSfx = 1.0;
+  double volumeSfx = 10.0;
   bool playSfx = true;
 
   late final CameraComponent cam;
