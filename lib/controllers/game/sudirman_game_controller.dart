@@ -12,20 +12,22 @@ import 'package:sudirman_guerrilla_gambit/controllers/game/map_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/npc_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
 
-class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionDetection{
-  // @override
-  // Color backgroundColor() => Global.bgGame;
+class SudirmanGameController extends FlameGame
+    with DragCallbacks, HasCollisionDetection {
   PlayerController player = PlayerController();
   NpcController npc = NpcController();
   late final CameraComponent cam;
   late JoystickComponent joystick;
+  double volumeSfx = 1.0;
+  bool playSfx = true;
 
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
 
     final world = MapController(
-      player: player, npc: npc,
+      player: player,
+      npc: npc,
     );
     final cam = CameraComponent.withFixedResolution(
       world: world,
@@ -87,17 +89,14 @@ class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionD
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
-        // player.playerDirection = PlayerDirection.left;
         player.horizontalMove = -1;
         break;
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
-        // player.playerDirection = PlayerDirection.right;
         player.horizontalMove = 1;
         break;
       default:
-        // player.playerDirection = PlayerDirection.none;
         player.horizontalMove = 0;
         break;
     }
