@@ -17,7 +17,7 @@ class NpcController extends SpriteAnimationGroupComponent
   late final SpriteAnimation idleAnimation;
 
   static const stepTime = 0.1;
-  final double _gravity = 9.8; //9.8
+  final double _gravity = 9.8;
   final double _jumpForce = 260;
   final double _terminalVelocity = 300;
   Vector2 velocity = Vector2.zero();

@@ -1,7 +1,7 @@
-// import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/audio_manager.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
 
 class PauseMenuGame extends StatelessWidget {
@@ -21,7 +21,7 @@ class PauseMenuGame extends StatelessWidget {
               width: 100,
               child: GestureDetector(
                 onTap: () {
-                  // FlameAudio.bgm.resume();
+                  AudioManager.resumeBgm();
                   gameRef.overlays.remove(id);
                   gameRef.resumeEngine();
                 },
@@ -29,7 +29,7 @@ class PauseMenuGame extends StatelessWidget {
                   'Resume',
                   style: TextStyle(
                     color: Global.whiteColor,
-                    fontSize: 20,
+                    fontSize: 25,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -46,7 +46,7 @@ class PauseMenuGame extends StatelessWidget {
                   'Exit',
                   style: TextStyle(
                     color: Global.whiteColor,
-                    fontSize: 20,
+                    fontSize: 25,
                   ),
                   textAlign: TextAlign.center,
                 ),

@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
-// import 'package:flame_audio/flame_audio.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/audio_manager.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
 import 'package:sudirman_guerrilla_gambit/views/game/pause_menu_game.dart';
 
 class Hud extends Component with HasGameRef<SudirmanGameController> {
   PositionType? positionType;
-
   late final TextComponent collectComponent;
+
   Hud({super.children, super.priority}) {
     positionType = PositionType.viewport;
   }
@@ -26,7 +26,7 @@ class Hud extends Component with HasGameRef<SudirmanGameController> {
 
     final pauseButton = SpriteButtonComponent(
       onPressed: () {
-        // FlameAudio.bgm.pause();
+        AudioManager.pauseBgm();
         gameRef.pauseEngine();
         gameRef.overlays.add(PauseMenuGame.id);
       },

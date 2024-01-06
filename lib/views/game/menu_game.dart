@@ -5,19 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/auth/auth_controller.dart';
-import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
 
-class MenuGame extends GetView<SudirmanGameController> {
-  static const id = 'MainMenu';
-  // final SudirmanGameController gameRef;
+class MenuGame extends StatelessWidget {
+  MenuGame({Key? key}) : super(key: key);
 
-  MenuGame({
-    Key? key,
-    // required this.gameRef,
-  }) : super(key: key);
   final AuthController conAuth = Get.find<AuthController>();
-
   final isloginUser = FirebaseAuth.instance.currentUser!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +60,7 @@ class MenuGame extends GetView<SudirmanGameController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          controller.goGame();
+                          Get.offAndToNamed('/game');
                         },
                         child: const Text(
                           'Play',
@@ -78,7 +72,7 @@ class MenuGame extends GetView<SudirmanGameController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          controller.goSetting();
+                          Get.toNamed('/setting');
                         },
                         child: const Text(
                           'Settings',

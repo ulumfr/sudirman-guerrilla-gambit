@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame_audio/flame_audio.dart';
+// import 'package:flame_audio/flame_audio.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/audio_manager.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/check_col.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/collectible_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/collision_block.dart';
@@ -24,13 +25,16 @@ class PlayerController extends SpriteAnimationGroupComponent
   final double _gravity = 9.8;
   final double _jumpForce = 280;
   final double _terminalVelocity = 300;
+
   Vector2 spawnPos = Vector2(0, 0);
+  Vector2 velocity = Vector2.zero();
   double horizontalMove = 0;
+  double moveSpeed = 100;
+
   bool isOnGround = false;
   bool hasJump = false;
   bool isJumping = false;
-  double moveSpeed = 100;
-  Vector2 velocity = Vector2.zero();
+
   List<CollisionBlock> collisionBlocks = [];
 
   final hitbox = CustomHitbox(
@@ -43,11 +47,14 @@ class PlayerController extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
+
     spawnPos = Vector2(position.x, position.y);
+
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
     ));
+
     debugMode = Global.debugMode;
     return super.onLoad();
   }
@@ -99,9 +106,7 @@ class PlayerController extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
-    if (game.playSfx) {
-      FlameAudio.play('jump.wav', volume: game.volumeSfx);
-    }
+    AudioManager.playSfx('jump.wav', 30.0);
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
@@ -148,9 +153,7 @@ class PlayerController extends SpriteAnimationGroupComponent
       } else if (block.isVoid) {
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
-            if (game.playSfx) {
-              FlameAudio.play('hit.wav', volume: game.volumeSfx);
-            }
+            AudioManager.playSfx('hit.wav', 30.0);
             velocity.y = 0;
             velocity.x = 0;
             scale.x = 1;
@@ -165,8 +168,8 @@ class PlayerController extends SpriteAnimationGroupComponent
             position.y = block.y - hitbox.height - hitbox.offsetY;
             isOnGround = true;
 
-            if (isJumping && game.playSfx) {
-              FlameAudio.play('landing.wav', volume: game.volumeSfx);
+            if (isJumping) {
+              AudioManager.playSfx('landing.wav', 30.0);
               isJumping = false;
             }
             break;
@@ -194,9 +197,7 @@ class PlayerController extends SpriteAnimationGroupComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Collectible) {
-      if (game.playSfx) {
-        FlameAudio.play('collect.wav', volume: game.volumeSfx);
-      }
+      AudioManager.playSfx('collect.wav', 30.0);
       other.collidingwithplayer();
       gameRef.playerData.collect.value += 1;
     }
