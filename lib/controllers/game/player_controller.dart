@@ -158,6 +158,9 @@ class PlayerController extends SpriteAnimationGroupComponent
             velocity.x = 0;
             scale.x = 1;
             position = spawnPos;
+            if (gameRef.playerData.health.value > 0) {
+              gameRef.playerData.health.value -= 1;
+            }
             break;
           }
         }
