@@ -1,13 +1,14 @@
 import 'dart:ui';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/audio_manager.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/sudirman_game_controller.dart';
 
 class SettingsGame extends StatelessWidget {
-  SettingsGame({Key? key}) : super(key: key);
-
-  final RxBool isSoundOn = false.obs;
+  static const id = 'SettingsMenu';
+  final SudirmanGameController? gameRef;
+  const SettingsGame({Key? key, this.gameRef}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,27 +52,50 @@ class SettingsGame extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Sound',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Global.whiteColor,
-                            ),
-                          ),
                           const SizedBox(width: 60),
-                          Obx(
-                            () => Switch(
-                              value: isSoundOn.value,
-                              onChanged: (newValue) {
-                                isSoundOn.value = newValue;
-                                if (isSoundOn.value) {
-                                  FlameAudio.bgm.play('Angkara.wav');
-                                } else {
-                                  FlameAudio.bgm.stop();
-                                }
-                              },
-                              activeColor: Global.bgGoldGame,
-                            ),
+                          Column(
+                            children: [
+                              SizedBox(
+                                width: 300,
+                                child: ValueListenableBuilder<bool>(
+                                  valueListenable: AudioManager.bgm,
+                                  builder: (context, bgm, child) =>
+                                      SwitchListTile(
+                                    title: const Text(
+                                      'Background Music',
+                                      style: TextStyle(
+                                        color: Global.whiteColor,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    activeColor: Global.bgGoldGame,
+                                    value: bgm,
+                                    onChanged: (value) =>
+                                        AudioManager.bgm.value = value,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 300,
+                                child: ValueListenableBuilder<bool>(
+                                  valueListenable: AudioManager.sfx,
+                                  builder: (context, sfx, child) =>
+                                      SwitchListTile(
+                                    title: const Text(
+                                      'Sound Effects',
+                                      style: TextStyle(
+                                        color: Global.whiteColor,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    activeColor: Global.bgGoldGame,
+                                    value: sfx,
+                                    onChanged: (value) =>
+                                        AudioManager.sfx.value = value,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

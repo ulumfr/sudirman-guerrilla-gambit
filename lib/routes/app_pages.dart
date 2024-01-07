@@ -37,11 +37,12 @@ class AppRoutes {
       page: () => MenuGame(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => SudirmanGameController());
+        Get.lazyPut(() => AuthController());
       }),
     ),
     GetPage(
       name: '/setting',
-      page: () => SettingsGame(),
+      page: () => const SettingsGame(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => SudirmanGameController());
         // Get.lazyPut(() => AuthController());

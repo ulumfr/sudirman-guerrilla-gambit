@@ -3,21 +3,24 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-// import 'package:sudirman_guerrilla_gambit/constants.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/audio_manager.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/components/hud.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/components/jump_button_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/map_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/npc_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/player_controller.dart';
+import 'package:sudirman_guerrilla_gambit/models/player_data.dart';
 
-class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionDetection{
-  // @override
-  // Color backgroundColor() => Global.bgGame;
+class SudirmanGameController extends FlameGame
+    with DragCallbacks, HasCollisionDetection, TapCallbacks {
   PlayerController player = PlayerController();
   NpcController npc = NpcController();
+
+  double volumeSfx = 10.0;
+
   late final CameraComponent cam;
+  final playerData = PlayerData();
   late JoystickComponent joystick;
 
   @override
@@ -25,8 +28,10 @@ class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionD
     await images.loadAllImages();
 
     final world = MapController(
-      player: player, npc: npc,
+      player: player,
+      npc: npc,
     );
+
     final cam = CameraComponent.withFixedResolution(
       world: world,
       width: 600,
@@ -48,9 +53,9 @@ class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionD
     // cam.setBounds(_levelBounds);
     addAll([cam..priority = -1, world..priority = -1]);
     addJoyStick();
+    add(Hud(priority: 1));
 
-    FlameAudio.bgm.initialize();
-    FlameAudio.audioCache.load("Angkara.wav");
+    await AudioManager.init();
     return super.onLoad();
   }
 
@@ -87,27 +92,16 @@ class SudirmanGameController extends FlameGame with DragCallbacks, HasCollisionD
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
-        // player.playerDirection = PlayerDirection.left;
         player.horizontalMove = -1;
         break;
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
-        // player.playerDirection = PlayerDirection.right;
         player.horizontalMove = 1;
         break;
       default:
-        // player.playerDirection = PlayerDirection.none;
         player.horizontalMove = 0;
         break;
     }
-  }
-
-  void goGame() {
-    Get.offAndToNamed('/game');
-  }
-
-  void goSetting() {
-    Get.toNamed('/setting');
   }
 }

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+// import 'package:flame_audio/flame_audio.dart';
 import 'package:sudirman_guerrilla_gambit/constants.dart';
+import 'package:sudirman_guerrilla_gambit/controllers/game/audio_manager.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/check_col.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/collectible_controller.dart';
 import 'package:sudirman_guerrilla_gambit/controllers/game/collision_block.dart';
@@ -10,10 +12,8 @@ import 'package:sudirman_guerrilla_gambit/models/custom_hitbox.dart';
 
 enum PlayerState { idle, walk }
 
-// enum PlayerDirection { left, right, none }
-
 class PlayerController extends SpriteAnimationGroupComponent
-    with HasGameRef<SudirmanGameController>, CollisionCallbacks{
+    with HasGameRef<SudirmanGameController>, CollisionCallbacks {
   PlayerController({
     position,
   }) : super(position: position);
@@ -22,18 +22,19 @@ class PlayerController extends SpriteAnimationGroupComponent
   late final SpriteAnimation walkAnimation;
 
   final double stepTime = 0.1;
-  final double _gravity = 9.8; //9.8
+  final double _gravity = 9.8;
   final double _jumpForce = 280;
   final double _terminalVelocity = 300;
 
+  Vector2 spawnPos = Vector2(0, 0);
+  Vector2 velocity = Vector2.zero();
   double horizontalMove = 0;
+  double moveSpeed = 100;
+
   bool isOnGround = false;
   bool hasJump = false;
+  bool isJumping = false;
 
-  // PlayerDirection playerDirection = PlayerDirection.none;
-  double moveSpeed = 100;
-  Vector2 velocity = Vector2.zero();
-  // bool isFacingRight = true;
   List<CollisionBlock> collisionBlocks = [];
 
   final hitbox = CustomHitbox(
@@ -46,10 +47,14 @@ class PlayerController extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
+
+    spawnPos = Vector2(position.x, position.y);
+
     add(RectangleHitbox(
       position: Vector2(hitbox.offsetX, hitbox.offsetY),
       size: Vector2(hitbox.width, hitbox.height),
     ));
+
     debugMode = Global.debugMode;
     return super.onLoad();
   }
@@ -93,30 +98,6 @@ class PlayerController extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerMovement(double dt) {
-    // double dirX = 0.0;
-    // switch (playerDirection) {
-    //   case PlayerDirection.left:
-    //     if (isFacingRight) {
-    //       flipHorizontallyAroundCenter();
-    //       isFacingRight = false;
-    //     }
-    //     current = PlayerState.walk;
-    //     dirX -= moveSpeed;
-    //     break;
-    //   case PlayerDirection.right:
-    //     if (!isFacingRight) {
-    //       flipHorizontallyAroundCenter();
-    //       isFacingRight = true;
-    //     }
-    //     current = PlayerState.walk;
-    //     dirX += moveSpeed;
-    //     break;
-    //   case PlayerDirection.none:
-    //     current = PlayerState.idle;
-    //     break;
-    //   default:
-    // }
-    // velocity = Vector2(dirX, 0.0);
     if (hasJump && isOnGround) {
       _playerJump(dt);
     }
@@ -125,10 +106,12 @@ class PlayerController extends SpriteAnimationGroupComponent
   }
 
   void _playerJump(double dt) {
+    AudioManager.playSfx('jump.wav', 30.0);
     velocity.y = -_jumpForce;
     position.y += velocity.y * dt;
     isOnGround = false;
     hasJump = false;
+    isJumping = true;
   }
 
   void _checkHCollision() {
@@ -137,13 +120,11 @@ class PlayerController extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.x > 0) {
             velocity.x = 0;
-            // position.x = block.x - width;
             position.x = block.x - hitbox.offsetX - hitbox.width;
             break;
           }
           if (velocity.x < 0) {
             velocity.x = 0;
-            // position.x = block.x + block.width + width;
             position.x = block.x + block.width + hitbox.width + hitbox.offsetX;
             break;
           }
@@ -164,9 +145,22 @@ class PlayerController extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            // position.y = block.y - height;
             position.y = block.y - hitbox.height - hitbox.offsetY;
             isOnGround = true;
+            break;
+          }
+        }
+      } else if (block.isVoid) {
+        if (checkCollision(this, block)) {
+          if (velocity.y > 0) {
+            AudioManager.playSfx('hit.wav', 30.0);
+            velocity.y = 0;
+            velocity.x = 0;
+            scale.x = 1;
+            position = spawnPos;
+            if (gameRef.playerData.health.value > 0) {
+              gameRef.playerData.health.value -= 1;
+            }
             break;
           }
         }
@@ -174,14 +168,17 @@ class PlayerController extends SpriteAnimationGroupComponent
         if (checkCollision(this, block)) {
           if (velocity.y > 0) {
             velocity.y = 0;
-            // position.y = block.y - height;
             position.y = block.y - hitbox.height - hitbox.offsetY;
             isOnGround = true;
+
+            if (isJumping) {
+              AudioManager.playSfx('landing.wav', 30.0);
+              isJumping = false;
+            }
             break;
           }
           if (velocity.y < 0) {
             velocity.y = 0;
-            // position.y = block.y + block.height;
             position.y = block.y + block.height - hitbox.offsetY;
           }
         }
@@ -202,8 +199,10 @@ class PlayerController extends SpriteAnimationGroupComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if(other is Collectible) {
+    if (other is Collectible) {
+      AudioManager.playSfx('collect.wav', 30.0);
       other.collidingwithplayer();
+      gameRef.playerData.collect.value += 1;
     }
     super.onCollision(intersectionPoints, other);
   }
